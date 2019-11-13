@@ -2,6 +2,7 @@
 // @name         直播平台自动网页全屏
 // @namespace    http://tampermonkey.net/
 // @homeurl      https://github.com/dengyuhan/LardMonkeyScripts
+// @homeurl      https://greasyfork.org/zh-CN/scripts/377547
 // @version      0.7
 // @description  直播平台进入直播间后自动网页全屏; 熊猫TV需要切换成H5播放器
 // @author       denghaha
@@ -18,7 +19,7 @@
     var interval;
 
     let url = window.location.host
-    if (url.indexOf("douyu.com") != -1) {
+    if (url.indexOf("douyu.com") !== -1) {
         //斗鱼延迟执行才有效
         setTimeout(function(){clickLivePlatform(true, "showdanmu-42b0ac", "wfs-2a8e83")}, 6000)
     } else {

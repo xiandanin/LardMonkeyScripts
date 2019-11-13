@@ -2,6 +2,7 @@
 // @name         Github显示具体Star数字
 // @namespace    http://tampermonkey.net/
 // @homeurl      https://github.com/dengyuhan/LardMonkeyScripts
+// @homeurl      https://greasyfork.org/zh-CN/scripts/391285
 // @version      0.2
 // @description  让Star/Fork等显示完整的数字
 // @author       denghaha
