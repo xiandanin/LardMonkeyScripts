@@ -16,7 +16,7 @@
 >
 >GreasyFork：[https://greasyfork.org/zh-CN/scripts/392357](https://greasyfork.org/zh-CN/scripts/392357)
 
-![](screenshots/translation_bypass.jpg)
+<img src="screenshots/translation_bypass.jpg" width="500"/>
 
 ## 磁力搜自动采集
 添加一个采集按钮到页面右上角，执行自动采集解析规则的操作
@@ -33,3 +33,10 @@
 >[auto\_live_fullscreen.js](auto_live_fullscreen.js)
 >
 >GreasyFork：[https://greasyfork.org/zh-CN/scripts/377547](https://greasyfork.org/zh-CN/scripts/377547)
+
+## 隐藏搜索历史
+隐藏搜索引擎下拉框的历史记录，目前仅适配Google
+
+>[hide\_search_history.js](hide_search_history.js)
+>
+>GreasyFork：[https://greasyfork.org/zh-CN/scripts/392368](https://greasyfork.org/zh-CN/scripts/392368)
