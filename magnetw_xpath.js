@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         磁力搜自动采集
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  添加一个采集按钮到页面右上角，执行自动采集解析规则的操作
 // @homeurl      https://github.com/dengyuhan/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/392361
@@ -212,6 +212,10 @@
         console.info(sizeWrapper.node)
         console.info(hotWrapper.node)
 
+        const lowVerPath = {}
+        for (let key in item.paths) {
+            lowVerPath[key] = item.paths[key].replace(/{k}/g, '%s').replace(/{p}/g, '%d')
+        }
         const lowVer = {
             site: item.name,
             group: item.xpath.group,
@@ -221,7 +225,7 @@
             date: item.xpath.date,
             hot: item.xpath.hot,
             url: item.url,
-            paths: item.paths
+            paths: lowVerPath
         }
 
         const xVerUrl = item.url + item.paths[Object.keys(item.paths)[0]]
