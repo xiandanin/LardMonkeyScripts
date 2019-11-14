@@ -2,7 +2,7 @@
 // @name         谷歌翻译绕过代码块
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  让谷歌翻译插件翻译网页的时候绕过代码块和一些无需翻译的元素
+// @description  让谷歌翻译插件翻译网页的时候，绕过代码块和一些无需翻译的元素
 // @author       denghaha
 // @homeurl      https://github.com/dengyuhan/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/392357

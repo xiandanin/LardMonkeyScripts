@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         磁力搜自动采集
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  添加一个采集按钮到页面右上角，执行自动采集解析规则的操作
 // @homeurl      https://github.com/dengyuhan/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/392361
@@ -14,7 +14,8 @@
 
     let button = document.createElement('button')
     button.innerText = "采集"
-    button.style.position = 'absolute'
+    button.style.position = 'fixed'
+    button.style.padding = '2px 6px'
     button.style.top = '0'
     button.style.right = '0'
     button.style.zIndex = '99999'
@@ -22,7 +23,7 @@
     button.style.color = "#606266"
     button.style.border = "1px solid #dcdfe6"
     button.style.backgroundColor = "#fff"
-    button.style.opacity = "0.6"
+    button.style.opacity = "0.8"
     button.onclick = exec
     document.body.appendChild(button)
 
@@ -184,9 +185,10 @@
         const hotWrapper = findItemValueNode(new RegExp(hotRegx, 'gi'))
 
         let hostnameArray = window.location.hostname.split('.')
-        const id = hostnameArray[Math.floor(hostnameArray.length / 2)]
+        const id = hostnameArray[hostnameArray.length >= 3 ? Math.floor(hostnameArray.length / 2) : 0]
         const url = `${window.location.protocol}//${window.location.host}`
         const title = document.title
+        const icon = `${url}/favicon.ico`
         const paths = findSortPaths(url)
 
         // xpath
@@ -201,7 +203,7 @@
             group, magnet, name, size, date, hot
         }
         const item = {
-            id, name: title, url, paths, xpath
+            id, name: title, url, icon, paths, xpath
         }
 
         console.info('关键词：%s', keyword)
