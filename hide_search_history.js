@@ -6,7 +6,7 @@
 // @homeurl      https://github.com/dengyuhan/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/392368
 // @author       denghaha
-// @match        https://www.google.*/*
+// @match        https://www.google.com/*
 // @grant        none
 // ==/UserScript==
 (function () {
