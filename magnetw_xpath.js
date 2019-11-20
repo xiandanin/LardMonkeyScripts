@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         磁力搜自动采集
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  添加一个采集按钮到页面右上角，执行自动采集解析规则的操作
 // @homeurl      https://github.com/dengyuhan/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/392361
@@ -39,19 +39,26 @@
             }
         }
         if (!keyword) {
+            console.log('没有分析出关键词')
             return
         }
 
-        // 遍历所有超链接 找出第一个包含关键词的节点
+        // 遍历所有超链接 找出第3个包含关键词的节点
         let aNode
         let aNodes = document.getElementsByTagName('a')
+        let aNodeCount = 0
         for (let i = 0; i < aNodes.length; i++) {
-            if (aNodes[i].innerText.indexOf(keyword) !== -1) {
+            if (new RegExp(`${keyword}`, 'gi').test(aNodes[i].innerText)
+                || /magnet/gi.test(aNodes[i].getAttribute('href'))) {
                 aNode = aNodes[i]
+                aNodeCount++
+            }
+            if (aNodeCount >= 3) {
                 break
             }
         }
         if (!aNode) {
+            console.log('没有分析出合适的链接')
             return
         }
 
@@ -64,7 +71,7 @@
         function findItemGroupNode (node) {
             const parentNode = node.parentNode
             const regx = new RegExp(`(?=[\\s\\S]*${keyword})(?=[\\s\\S]*(${dateRegx}))(?=[\\s\\S]*(${sizeRegx}))^[\\s\\S]*$`, 'gi')
-            if (regx.test(parentNode.innerHTML)) {
+            if (regx.test(parentNode.textContent)) {
                 return parentNode
             } else {
                 return findItemGroupNode(parentNode.parentNode)
@@ -176,8 +183,10 @@
 
         const groupNode = findItemGroupNode(aNode)
         if (!groupNode) {
+            console.log('没有分析出合适的Group')
             return
         }
+        console.log('找到Group', groupNode)
         findAllChildNode(groupNode)
         const dateWrapper = findItemValueNode(new RegExp(dateRegx, 'gi'))
         const sizeWrapper = findItemValueNode(new RegExp(sizeRegx, 'gi'))
