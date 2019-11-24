@@ -1,6 +1,14 @@
 * [Tampermonkey](http://www.tampermonkey.net/)
 * [GreasyFork](https://greasyfork.org/zh-CN)
 
+## 磁力搜自动采集
+添加一个采集按钮到页面右上角，执行自动采集解析规则的操作
+>[magnetw_xpath.js](magnetw_xpath.js)
+>
+>GreasyFork：[https://greasyfork.org/zh-CN/scripts/392361](https://greasyfork.org/zh-CN/scripts/392361)
+
+<img src="screenshots/magnetw_xpath.gif" width="600"/>
+
 ## Github显示具体Star数字
 将顶栏的数字缩写转换为具体数字
 
@@ -17,15 +25,6 @@
 >GreasyFork：[https://greasyfork.org/zh-CN/scripts/392357](https://greasyfork.org/zh-CN/scripts/392357)
 
 ![](screenshots/translation_bypass.jpg)
-
-## 磁力搜自动采集
-添加一个采集按钮到页面右上角，执行自动采集解析规则的操作
->[magnetw_xpath.js](magnetw_xpath.js)
->
->GreasyFork：[https://greasyfork.org/zh-CN/scripts/392361](https://greasyfork.org/zh-CN/scripts/392361)
-
-<img src="screenshots/magnetw_xpath.gif" width="600"/>
-
 
 ## 直播平台自动网页全屏
 进入直播间后自动点击网页全屏按钮
