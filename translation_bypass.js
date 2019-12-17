@@ -3,8 +3,8 @@
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  让谷歌翻译插件翻译网页的时候，绕过代码块和一些无需翻译的元素
-// @author       denghaha
-// @homeurl      https://github.com/dengyuhan/LardMonkeyScripts
+// @author       xiandan
+// @homeurl      https://github.com/xiandanin/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/392357
 // @match        https://github.com/*
 // @match        https://npmjs.com/*

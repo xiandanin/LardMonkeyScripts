@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         直播平台自动网页全屏
 // @namespace    http://tampermonkey.net/
-// @homeurl      https://github.com/dengyuhan/LardMonkeyScripts
+// @homeurl      https://github.com/xiandanin/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/377547
 // @version      0.7
 // @description  直播平台进入直播间后自动网页全屏; 熊猫TV需要切换成H5播放器
-// @author       denghaha
+// @author       xiandan
 // @match        https://www.douyu.com/*
 // @match        https://www.panda.tv/*
 // @match        https://www.huya.com/*

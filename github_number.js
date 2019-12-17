@@ -1,17 +1,18 @@
 // ==UserScript==
 // @name         Github显示具体Star数字
 // @namespace    http://tampermonkey.net/
-// @homeurl      https://github.com/dengyuhan/LardMonkeyScripts
+// @homeurl      https://github.com/xiandanin/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/391285
-// @version      0.2
+// @version      0.3
 // @description  让Star/Fork等显示完整的数字
-// @author       denghaha
+// @author       xiandan
 // @match        https://github.com/*
 // @grant        none
 // ==/UserScript==
 
 (function () {
     'use strict'
+
 
     function extractNumber (str) {
         let reg = /\d+/
@@ -23,16 +24,33 @@
         return num.toString().replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
     }
 
-    let pageheadActions = document.getElementsByClassName("pagehead-actions")
-    if (pageheadActions && pageheadActions.length > 0) {
-        let socialCountNode = pageheadActions[0].getElementsByClassName("social-count")
-        if (socialCountNode) {
-            for (let i = 0; i < socialCountNode.length; i++) {
-                let countStr = socialCountNode[i].getAttribute("aria-label")
+    function applyNodeNumber () {
+        // 过滤出需要设置 并且有详细数字的节点
+        const socialCountNodes = document.querySelectorAll(".social-count")
+        if (socialCountNodes && socialCountNodes.length > 0) {
+            for (let i = 0; i < socialCountNodes.length; i++) {
+                const node = socialCountNodes[i]
+                let countStr = node.getAttribute("aria-label")
                 if (countStr) {
-                    socialCountNode[i].innerText = formatNumber(extractNumber(countStr))
+                    if (/^\d+$/.test(node.innerText)) {
+                        // 如果已经是纯数字
+                    } else {
+                        const countStr = node.getAttribute("aria-label")
+                        node.innerText = formatNumber(extractNumber(countStr))
+                    }
                 }
             }
         }
     }
+
+
+    const main = document.querySelector('#js-repo-pjax-container')
+    const observer = new MutationObserver(function (mutations, observer) {
+        applyNodeNumber()
+    })
+    observer.observe(main, {
+        childList: true
+    })
+    applyNodeNumber()
+
 })()
