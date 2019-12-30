@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @homeurl      https://github.com/xiandanin/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/391285
-// @version      0.4
+// @version      0.5
 // @description  让Star/Fork等显示完整的数字
 // @author       xiandan
 // @match        https://github.com/*
@@ -44,7 +44,7 @@
     }
 
 
-    const main = document.querySelector('#js-repo-pjax-container')
+    const main = document.querySelector('main')
     if (main != null) {
         const observer = new MutationObserver(function (mutations, observer) {
             applyNodeNumber()
