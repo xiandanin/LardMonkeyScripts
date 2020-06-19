@@ -3,12 +3,13 @@
 // @namespace    http://tampermonkey.net/
 // @homeurl      https://github.com/xiandanin/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/377547
-// @version      0.7
+// @version      0.8
 // @description  直播平台进入直播间后自动网页全屏; 熊猫TV需要切换成H5播放器
-// @author       xiandan
+// @author       xiandanin
 // @match        https://www.douyu.com/*
 // @match        https://www.panda.tv/*
 // @match        https://www.huya.com/*
+// @match        https://cc.163.com/*
 // @grant        none
 // ==/UserScript==
 
@@ -63,6 +64,8 @@
             clickLivePlatform(false, "player-danmu-btn", "player-fullpage-btn")
         } else if (url.indexOf("panda.tv") != -1 && document.getElementsByClassName("h5player-player-core-container").length > 0) {
             clickLivePlatform(true, "h5player-control-circlebar-btn h5player-control-circlebar-danmu  open-switch", "h5player-control-bar-btn h5player-control-bar-fullscreen")
+        }else if (url.indexOf("cc.163.com") != -1 && document.getElementsByClassName("video-player-theater-control").length > 0) {
+            clickLivePlatform(true, "video-player-control-item video-player-comment on", "video-player-control-item video-player-theater-control")
         } else {
             fullscreenComplete = true
         }
