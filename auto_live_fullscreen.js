@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @homeurl      https://github.com/xiandanin/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/377547
-// @version      0.8
+// @version      0.9
 // @description  直播平台进入直播间后自动网页全屏; 熊猫TV需要切换成H5播放器
 // @author       xiandanin
 // @match        https://www.douyu.com/*
@@ -22,12 +22,14 @@
     let url = window.location.host
     if (url.indexOf("douyu.com") !== -1) {
         //斗鱼延迟执行才有效
-        setTimeout(function(){clickLivePlatform(true, "showdanmu-42b0ac", "wfs-2a8e83")}, 6000)
+        setTimeout(function () {
+            clickLivePlatform(true, "showdanmu-42b0ac", "wfs-2a8e83")
+        }, 6000)
     } else {
         interval = setInterval(applyLivePlatform, intervalTime);
     }
 
-    function clickLivePlatform(isClassName, danmu, fullscreen) {
+    function clickLivePlatform (isClassName, danmu, fullscreen) {
         console.log("已经执行" + executeTime + "ms，网页全屏：" + fullscreenComplete + "，任务已清除")
         if (isClassName) {
             if (document.getElementsByClassName(danmu).length > 0) {
@@ -48,9 +50,9 @@
         }
     }
 
-    function applyLivePlatform() {
+    function applyLivePlatform () {
         executeTime += 500;
-        if (executeTime >= 5000 || fullscreenComplete) {
+        if (executeTime >= 8000 || fullscreenComplete) {
             clearInterval(interval);
             console.log("已经执行" + executeTime + "ms，网页全屏：" + fullscreenComplete + "，任务已清除")
             return
@@ -59,13 +61,16 @@
         }
 
         if (url.indexOf("huya.com") != -1 && document.getElementById("player-video") != null) {
-            document.styleSheets[document.styleSheets.length-1].insertRule('.chat-room__list .name { max-width: 100%; }')
-            document.styleSheets[document.styleSheets.length-1].insertRule('.week-rank__bd .week-rank-name { max-width: 100%; }')
+            document.styleSheets[document.styleSheets.length - 1].insertRule('.chat-room__list .name { max-width: 100%; }')
+            document.styleSheets[document.styleSheets.length - 1].insertRule('.week-rank__bd .week-rank-name { max-width: 100%; }')
             clickLivePlatform(false, "player-danmu-btn", "player-fullpage-btn")
         } else if (url.indexOf("panda.tv") != -1 && document.getElementsByClassName("h5player-player-core-container").length > 0) {
             clickLivePlatform(true, "h5player-control-circlebar-btn h5player-control-circlebar-danmu  open-switch", "h5player-control-bar-btn h5player-control-bar-fullscreen")
-        }else if (url.indexOf("cc.163.com") != -1 && document.getElementsByClassName("video-player-theater-control").length > 0) {
+        } else if (url.indexOf("cc.163.com") != -1 && document.getElementsByClassName("video-player-theater-control").length > 0) {
             clickLivePlatform(true, "video-player-control-item video-player-comment on", "video-player-control-item video-player-theater-control")
+            // 打开影响观看的设置
+            document.querySelector('.ban-effect-list').children[1].click()
+            document.querySelector('.ban-effect-list').children[3].click()
         } else {
             fullscreenComplete = true
         }
