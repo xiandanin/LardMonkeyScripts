@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @homeurl      https://github.com/xiandanin/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/377547
-// @version      0.9
+// @version      1.0
 // @description  直播平台进入直播间后自动网页全屏; 熊猫TV需要切换成H5播放器
 // @author       xiandanin
 // @match        https://www.douyu.com/*
@@ -24,7 +24,15 @@
         //斗鱼延迟执行才有效
         setTimeout(function () {
             clickLivePlatform(true, "showdanmu-42b0ac", "wfs-2a8e83")
-        }, 6000)
+        }, 5000)
+    } else if (url.indexOf("cc.163.com") !== -1) {
+        //CC延迟执行才有效
+        setTimeout(function () {
+            clickLivePlatform(true, "video-player-control-item video-player-comment on", "video-player-control-item video-player-theater-control")
+            // 打开影响观看的设置
+            document.querySelector('.ban-effect-list').children[1].click()
+            document.querySelector('.ban-effect-list').children[3].click()
+        }, 3000)
     } else {
         interval = setInterval(applyLivePlatform, intervalTime);
     }
@@ -37,6 +45,7 @@
             }
             if (document.getElementsByClassName(fullscreen).length > 0) {
                 document.getElementsByClassName(fullscreen)[0].click();
+                console.log("已经执行点击网页全屏")
                 fullscreenComplete = true
             }
         } else {
@@ -45,6 +54,7 @@
             }
             if (document.getElementById(fullscreen) != null) {
                 document.getElementById(fullscreen).click();
+                console.log("已经执行点击网页全屏")
                 fullscreenComplete = true
             }
         }
@@ -52,7 +62,7 @@
 
     function applyLivePlatform () {
         executeTime += 500;
-        if (executeTime >= 8000 || fullscreenComplete) {
+        if (executeTime >= 6000 || fullscreenComplete) {
             clearInterval(interval);
             console.log("已经执行" + executeTime + "ms，网页全屏：" + fullscreenComplete + "，任务已清除")
             return
@@ -66,13 +76,9 @@
             clickLivePlatform(false, "player-danmu-btn", "player-fullpage-btn")
         } else if (url.indexOf("panda.tv") != -1 && document.getElementsByClassName("h5player-player-core-container").length > 0) {
             clickLivePlatform(true, "h5player-control-circlebar-btn h5player-control-circlebar-danmu  open-switch", "h5player-control-bar-btn h5player-control-bar-fullscreen")
-        } else if (url.indexOf("cc.163.com") != -1 && document.getElementsByClassName("video-player-theater-control").length > 0) {
-            clickLivePlatform(true, "video-player-control-item video-player-comment on", "video-player-control-item video-player-theater-control")
-            // 打开影响观看的设置
-            document.querySelector('.ban-effect-list').children[1].click()
-            document.querySelector('.ban-effect-list').children[3].click()
         } else {
             fullscreenComplete = true
+            console.log("没有匹配到合适的执行条件")
         }
     }
 
