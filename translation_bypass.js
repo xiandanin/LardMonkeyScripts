@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         谷歌翻译绕过代码块
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  让谷歌翻译插件翻译网页的时候，绕过代码块和一些无需翻译的元素
 // @author       xiandan
 // @homeurl      https://github.com/xiandanin/LardMonkeyScripts
@@ -34,7 +34,6 @@
         // 如果是github 还需要处理一些别的元素
         const githubSelector = [
             '.bg-gray-light.pt-3.hide-full-screen.mb-5',
-            '.octotree-sidebar',
             'summary.btn.css-truncate',
             '.commit-author',
             '.js-navigation-open.link-gray-dark',
@@ -48,12 +47,10 @@
         setTimeout(function () {
             const githubPluginSelector = [
                 '.github-repo-size-div',
-                '.octotree-sidebar'
+                '.octotree-tree-view'
             ]
             noTranslate(githubPluginSelector)
         }, 3000)
     }
     noTranslate(bypassSelectorArray)
-
-
 })()
