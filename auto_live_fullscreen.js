@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         直播平台自动网页全屏
+// @name         直播平台自动网页全屏/关闭弹幕
 // @namespace    http://tampermonkey.net/
 // @homeurl      https://github.com/xiandanin/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/377547
-// @version      1.0
-// @description  直播平台进入直播间后自动网页全屏; 熊猫TV需要切换成H5播放器
+// @version      1.1
+// @description  直播平台进入直播间后自动网页全屏和关闭弹幕
 // @author       xiandanin
 // @match        https://www.douyu.com/*
 // @match        https://www.panda.tv/*
@@ -14,72 +14,61 @@
 // ==/UserScript==
 
 (function () {
-    var intervalTime = 500;
-    var fullscreenComplete = false;
-    var executeTime = 0;
-    var interval;
+    let time = 0
 
-    let url = window.location.host
-    if (url.indexOf("douyu.com") !== -1) {
-        //斗鱼延迟执行才有效
-        setTimeout(function () {
-            clickLivePlatform(true, "showdanmu-42b0ac", "wfs-2a8e83")
-        }, 5000)
-    } else if (url.indexOf("cc.163.com") !== -1) {
-        //CC延迟执行才有效
-        setTimeout(function () {
-            clickLivePlatform(true, "video-player-control-item video-player-comment on", "video-player-control-item video-player-theater-control")
-            // 打开影响观看的设置
-            document.querySelector('.ban-effect-list').children[1].click()
-            document.querySelector('.ban-effect-list').children[3].click()
-        }, 3000)
-    } else {
-        interval = setInterval(applyLivePlatform, intervalTime);
+    /**
+     * 需要的节点加载完成的检测
+     */
+    function lazyLoadingDetection (selectors, callback) {
+        const intervalTime = 300
+        let interval = setInterval(function () {
+            //检测节点已经加载完成或者超过最大检测时间 都停止
+            if (document.querySelector(selectors)) {
+                console.log('%dms，检测节点加载完成，可以执行操作', time)
+                clearInterval(interval);
+                callback()
+            } else if (time >= 8000) {
+                console.log('%dms，计时器超时', time)
+                clearInterval(interval);
+            }
+            time += intervalTime;
+        }, intervalTime);
     }
 
-    function clickLivePlatform (isClassName, danmu, fullscreen) {
-        console.log("已经执行" + executeTime + "ms，网页全屏：" + fullscreenComplete + "，任务已清除")
-        if (isClassName) {
-            if (document.getElementsByClassName(danmu).length > 0) {
-                document.getElementsByClassName(danmu)[0].click();
+    function checkAndClickSwitch (delayClickTime, checkFunc, ...clickSelectors) {
+        lazyLoadingDetection(clickSelectors[0], function () {
+            for (let i = 0; i < clickSelectors.length; i++) {
+                const clickElement = document.querySelector(clickSelectors[i]);
+                // 检查当前状态是否需要点击
+                if (checkFunc(clickElement)) {
+                    setTimeout(function () {
+                        clickElement.click()
+                    }, delayClickTime)
+                }
             }
-            if (document.getElementsByClassName(fullscreen).length > 0) {
-                document.getElementsByClassName(fullscreen)[0].click();
-                console.log("已经执行点击网页全屏")
-                fullscreenComplete = true
-            }
-        } else {
-            if (document.getElementById(danmu) != null) {
-                document.getElementById(danmu).click();
-            }
-            if (document.getElementById(fullscreen) != null) {
-                document.getElementById(fullscreen).click();
-                console.log("已经执行点击网页全屏")
-                fullscreenComplete = true
-            }
-        }
+        })
     }
 
-    function applyLivePlatform () {
-        executeTime += 500;
-        if (executeTime >= 6000 || fullscreenComplete) {
-            clearInterval(interval);
-            console.log("已经执行" + executeTime + "ms，网页全屏：" + fullscreenComplete + "，任务已清除")
-            return
-        } else {
-            console.log("已经执行" + executeTime + "ms，网页全屏：" + fullscreenComplete + "，任务已清除")
-        }
-
-        if (url.indexOf("huya.com") != -1 && document.getElementById("player-video") != null) {
-            document.styleSheets[document.styleSheets.length - 1].insertRule('.chat-room__list .name { max-width: 100%; }')
-            document.styleSheets[document.styleSheets.length - 1].insertRule('.week-rank__bd .week-rank-name { max-width: 100%; }')
-            clickLivePlatform(false, "player-danmu-btn", "player-fullpage-btn")
-        } else if (url.indexOf("panda.tv") != -1 && document.getElementsByClassName("h5player-player-core-container").length > 0) {
-            clickLivePlatform(true, "h5player-control-circlebar-btn h5player-control-circlebar-danmu  open-switch", "h5player-control-bar-btn h5player-control-bar-fullscreen")
-        } else {
-            fullscreenComplete = true
-            console.log("没有匹配到合适的执行条件")
-        }
+    const host = window.location.host
+    if (host.indexOf("douyu.com") !== -1) {
+        //斗鱼
+        checkAndClickSwitch(0, clickElement => {
+            // 检测是开关状态
+            return !clickElement.classList.contains("removed-9d4c42")
+            //网页全屏 弹幕
+        }, ".wfs-2a8e83", '.showdanmu-42b0ac')
+    } else if (host.indexOf("huya.com") !== -1) {
+        //虎牙
+        checkAndClickSwitch(0, clickElement => {
+            return clickElement.className === 'player-fullpage-btn' || clickElement.className === 'danmu-show-btn'
+        }, "#player-fullpage-btn", '#player-danmu-btn')
+    } else if (host.indexOf("cc.163.com") !== -1) {
+        //cc 点击事件延迟1秒
+        checkAndClickSwitch(1000, clickElement => {
+            return !clickElement.classList.contains("theater") || !clickElement.classList.contains("on") || !clickElement.classList.contains("selected")
+            //CC需要先检测其它开关
+        }, '.ban-effect-list > li:nth-child(3)', '.ban-effect-list > li:nth-child(4)', '.ban-effect-list > li:nth-child(5)', ".video-player-theater-control", '.video-player-comment')
     }
+
 
 })();
