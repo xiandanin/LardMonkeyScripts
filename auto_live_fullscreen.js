@@ -57,6 +57,9 @@
             return !clickElement.classList.contains("removed-9d4c42")
             //网页全屏 弹幕
         }, ".wfs-2a8e83", '.showdanmu-42b0ac')
+        // 自动选择最高清的
+        const quality = document.querySelector('.tip-e3420a > ul').children
+        quality[0].click()
     } else if (host.indexOf("huya.com") !== -1) {
         //虎牙
         checkAndClickSwitch(0, clickElement => {
