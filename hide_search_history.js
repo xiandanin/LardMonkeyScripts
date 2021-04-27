@@ -1,12 +1,15 @@
 // ==UserScript==
 // @name         隐藏搜索历史
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  隐藏搜索引擎下拉框的历史记录，目前仅适配Google
-// @homeurl      https://github.com/xiandanin/LardMonkeyScripts
+// @homeurl      https://github.com/dengyuhan/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/392368
-// @author       xiandan
-// @match        https://www.google.com/*
+// @author       xiandanin
+// @include      *://encrypted.google.*/search*
+// @include      *://*.google*/search*
+// @include      *://*.google*/webhp*
+// @exclude      *://*.google*/sorry*
 // @grant        none
 // ==/UserScript==
 (function () {
