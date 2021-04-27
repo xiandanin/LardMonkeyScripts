@@ -7,6 +7,7 @@
 // @homeurl      https://greasyfork.org/zh-CN/scripts/392368
 // @author       xiandanin
 // @include      *://encrypted.google.*/search*
+// @include      *://*.google*/
 // @include      *://*.google*/search*
 // @include      *://*.google*/webhp*
 // @exclude      *://*.google*/sorry*
