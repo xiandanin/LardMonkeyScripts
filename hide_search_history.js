@@ -43,7 +43,7 @@
             deleteElements[i].click()
             setTimeout(function () {
                 deleteParentElement[i].style.display = ''
-            }, 200)
+            }, 500)
             console.info("删除搜索记录", deleteParentElement[i], deleteParentElement[i].textContent)
         }
     }
