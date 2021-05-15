@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         隐藏搜索历史
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  隐藏搜索引擎下拉框的历史记录，目前仅适配Google
 // @homeurl      https://github.com/dengyuhan/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/392368
@@ -27,7 +27,7 @@
             // 没隐藏的说明可以删除
             if (element.parentElement.style.display !== 'none') {
                 let parentElement = element.parentElement.parentElement;
-                let textElement = parentElement.querySelector('.zRAHie');
+                let textElement = parentElement.querySelector('div > div:nth-child(2) > div:nth-child(1)');
                 let textContent = textElement.textContent;
                 if (textElement && textContent && deleteCache.indexOf(textContent) === -1) {
                     deleteElements.push(element)
@@ -43,7 +43,7 @@
             deleteElements[i].click()
             setTimeout(function () {
                 deleteParentElement[i].style.display = ''
-            }, 500)
+            }, 1000)
             console.info("删除搜索记录", deleteParentElement[i], deleteParentElement[i].textContent)
         }
     }
