@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         谷歌翻译绕过代码块
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  让谷歌翻译插件翻译网页的时候，绕过代码块和一些无需翻译的元素
 // @author       xiandan
 // @homeurl      https://github.com/xiandanin/LardMonkeyScripts
@@ -33,13 +33,15 @@
     if (window.location.hostname.indexOf("github") !== -1) {
         // 如果是github 还需要处理一些别的元素
         const githubSelector = [
-            '.bg-gray-light.pt-3.hide-full-screen.mb-5',
+            '#repository-container-header > div:nth-child(1)',
             'summary.btn.css-truncate',
             '.commit-author',
             '.js-navigation-open.link-gray-dark',
             '.Box-title',
-            '.BorderGrid-cell > div.mt-3 > a.muted-link',
-            '.BorderGrid-cell > ul.list-style-none'
+            '.BorderGrid-cell > div.mt-3 > a.Link--muted',
+            '.BorderGrid-cell > a[data-pjax="#repo-content-pjax-container"] > div > div:first-child',
+            '.BorderGrid-cell > ul.list-style-none',
+            'div[role="rowheader"]'
         ]
         bypassSelectorArray.push.apply(bypassSelectorArray, githubSelector)
 
