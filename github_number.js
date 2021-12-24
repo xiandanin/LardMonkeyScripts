@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @homeurl      https://github.com/xiandanin/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/391285
-// @version      0.7
+// @version      0.8
 // @description  让Star/Fork等显示完整的数字
 // @author       xiandan
 // @match        https://github.com/*
@@ -26,15 +26,17 @@
 
     function applyNodeNumber () {
         // 过滤出需要设置 并且有详细数字的节点
-        const headerNode = document.querySelector('.pagehead-actions');
-        const nodes = headerNode.querySelectorAll('.Counter')
-        for (let i = 0; i < nodes.length; i++) {
-            const node = nodes[i]
-            if (/^\d+$/.test(node.innerText)) {
-                // 如果已经是纯数字
-            } else {
-                const countStr = node.getAttribute("title").replace(/,/g,'')
-                node.innerText = formatNumber(extractNumber(countStr))
+        const headerNode = document.querySelector('.pagehead-actions') || document.querySelector('.Layout');
+        if (headerNode) {
+            const nodes = headerNode.querySelectorAll('.Counter')
+            for (let i = 0; i < nodes.length; i++) {
+                const node = nodes[i]
+                if (/^\d+$/.test(node.innerText)) {
+                    // 如果已经是纯数字
+                } else {
+                    const countStr = node.getAttribute("title").replace(/,/g, '')
+                    node.innerText = formatNumber(extractNumber(countStr))
+                }
             }
         }
     }
