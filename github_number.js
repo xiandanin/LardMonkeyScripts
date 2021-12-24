@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @homeurl      https://github.com/xiandanin/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/391285
-// @version      0.6
+// @version      0.7
 // @description  让Star/Fork等显示完整的数字
 // @author       xiandan
 // @match        https://github.com/*
@@ -26,10 +26,8 @@
 
     function applyNodeNumber () {
         // 过滤出需要设置 并且有详细数字的节点
-        const watchNode = document.querySelector('#repo-notifications-counter')
-        const forkNode = document.querySelector('#repo-network-counter')
-        const starNode = document.querySelector('#repo-stars-counter-unstar')
-        const nodes = [watchNode, forkNode, starNode]
+        const headerNode = document.querySelector('.pagehead-actions');
+        const nodes = headerNode.querySelectorAll('.Counter')
         for (let i = 0; i < nodes.length; i++) {
             const node = nodes[i]
             if (/^\d+$/.test(node.innerText)) {
