@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @homeurl      https://github.com/xiandanin/LardMonkeyScripts
 // @homeurl      https://greasyfork.org/zh-CN/scripts/391285
-// @version      0.5
+// @version      0.6
 // @description  让Star/Fork等显示完整的数字
 // @author       xiandan
 // @match        https://github.com/*
@@ -26,19 +26,17 @@
 
     function applyNodeNumber () {
         // 过滤出需要设置 并且有详细数字的节点
-        const socialCountNodes = document.querySelectorAll(".social-count")
-        if (socialCountNodes && socialCountNodes.length > 0) {
-            for (let i = 0; i < socialCountNodes.length; i++) {
-                const node = socialCountNodes[i]
-                let countStr = node.getAttribute("aria-label")
-                if (countStr) {
-                    if (/^\d+$/.test(node.innerText)) {
-                        // 如果已经是纯数字
-                    } else {
-                        const countStr = node.getAttribute("aria-label")
-                        node.innerText = formatNumber(extractNumber(countStr))
-                    }
-                }
+        const watchNode = document.querySelector('#repo-notifications-counter')
+        const forkNode = document.querySelector('#repo-network-counter')
+        const starNode = document.querySelector('#repo-stars-counter-unstar')
+        const nodes = [watchNode, forkNode, starNode]
+        for (let i = 0; i < nodes.length; i++) {
+            const node = nodes[i]
+            if (/^\d+$/.test(node.innerText)) {
+                // 如果已经是纯数字
+            } else {
+                const countStr = node.getAttribute("title").replace(/,/g,'')
+                node.innerText = formatNumber(extractNumber(countStr))
             }
         }
     }
