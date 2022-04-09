@@ -1,14 +1,6 @@
 * [Tampermonkey](http://www.tampermonkey.net/)
 * [GreasyFork](https://greasyfork.org/zh-CN)
 
-## 磁力搜自动采集
-添加一个采集按钮到页面右上角，执行自动采集解析规则的操作
->[magnetw_xpath.js](magnetw_xpath.js)
->
->GreasyFork：[https://greasyfork.org/zh-CN/scripts/392361](https://greasyfork.org/zh-CN/scripts/392361)
-
-<img src="screenshots/magnetw_xpath.gif" width="600"/>
-
 ## Github显示具体Star数字
 将顶栏的数字缩写转换为具体数字
 
